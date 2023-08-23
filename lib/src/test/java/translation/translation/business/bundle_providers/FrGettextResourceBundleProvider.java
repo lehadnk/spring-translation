@@ -1,12 +1,14 @@
-package translation.translation.bundle_providers;
+package translation.translation.business.bundle_providers;
 
 import translation.translation.GettextResourceBundleProviderInterface;
+
+import java.util.Locale;
 
 public class FrGettextResourceBundleProvider implements GettextResourceBundleProviderInterface {
 
     @Override
-    public String getLanguage() {
-        return "fr";
+    public String getIso3LanguageCode() {
+        return Locale.FRANCE.getISO3Language();
     }
 
     @Override

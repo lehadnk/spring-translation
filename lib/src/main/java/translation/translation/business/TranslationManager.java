@@ -14,15 +14,15 @@ public class TranslationManager {
             List<GettextResourceBundleProviderInterface> resourceBundleProviders
     ) throws IOException {
         for (var resourceBundle : resourceBundleProviders) {
-            this.resourceBundles.put(resourceBundle.getLanguage(), new GettextResourceBundle(resourceBundle.getResourceBundlePath()));
+            this.resourceBundles.put(resourceBundle.getIso3LanguageCode(), new GettextResourceBundle(resourceBundle.getResourceBundlePath()));
         }
     }
 
     public String translate(
-            String language,
+            String iso3LanguageCode,
             String key
     ) {
-        var resourceBundle = this.resourceBundles.get(language);
+        var resourceBundle = this.resourceBundles.get(iso3LanguageCode);
         if (resourceBundle == null) {
             return key;
         }
