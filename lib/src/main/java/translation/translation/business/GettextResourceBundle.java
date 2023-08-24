@@ -24,10 +24,33 @@ public class GettextResourceBundle {
     private void loadTranslations(
             String translationFilePath
     ) throws IOException {
-        var inputStream = new FileInputStream(translationFilePath);
+        var loader = Thread.currentThread().getContextClassLoader();
+        var resourceUrl = loader.getResource(translationFilePath);
+        if (resourceUrl == null) {
+            throw new IOException("Resource not found: " + translationFilePath);
+        }
 
-        var reader = new LineNumberReader(new InputStreamReader(inputStream));
+        var connection = resourceUrl.openConnection();
+        try {
+            connection.connect();
+            try (var inputStream = resourceUrl.openStream()) {
+                var reader = new LineNumberReader(new InputStreamReader(inputStream));
+                this.readTranslationLines(reader);
+            }
+        } finally {
+            if (connection instanceof AutoCloseable closeable) {
+                try {
+                    closeable.close();
+                } catch (IOException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new IOException(e);
+                }
+            }
+        }
+    }
 
+    private void readTranslationLines(LineNumberReader reader) throws IOException {
         String line = null;
         String key = null;
         String value = null;
