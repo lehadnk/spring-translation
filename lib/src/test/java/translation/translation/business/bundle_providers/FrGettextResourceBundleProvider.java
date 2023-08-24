@@ -13,6 +13,6 @@ public class FrGettextResourceBundleProvider implements GettextResourceBundlePro
 
     @Override
     public String getResourceBundlePath() {
-        return "classpath:/resources/bundles/fr_FR.po";
+        return "bundles/fr_FR.po";
     }
 }
