@@ -24,7 +24,11 @@ public class GettextResourceBundle {
     private void loadTranslations(
             String translationFilePath
     ) throws IOException {
-        var inputStream = new FileInputStream(translationFilePath);
+        var loader = Thread.currentThread().getContextClassLoader();
+        var resourceUrl = loader.getResource(translationFilePath);
+
+
+        var inputStream = new FileInputStream(resourceUrl.toString());
 
         var reader = new LineNumberReader(new InputStreamReader(inputStream));
 
