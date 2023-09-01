@@ -21,3 +21,6 @@ msgstr "Bonjour"
 
 msgid "Bye"
 msgstr "Au revoir"
+
+msgid "Untranslated string"
+msgstr ""

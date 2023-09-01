@@ -92,6 +92,11 @@ public class GettextResourceBundle {
             return key;
         }
 
-        return this.resources.get(key);
+        var translation = this.resources.get(key);
+        if (translation.isEmpty()) {
+            return key;
+        }
+
+        return translation;
     }
 }

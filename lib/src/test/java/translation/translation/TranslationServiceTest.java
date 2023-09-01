@@ -31,6 +31,13 @@ public class TranslationServiceTest {
         assertEquals("Test", translationService.translate(Locale.FRANCE.getISO3Language(), "Test"));
     }
 
+    @Test
+    public void testTranslationReturnsKeyWhenTranslationIsEmpty() throws IOException {
+        var translationService = this.createTranslationService();
+
+        assertEquals("Untranslated string", translationService.translate(Locale.FRANCE.getISO3Language(), "Untranslated string"));
+    }
+
     private TranslationService createTranslationService() throws IOException {
         return new TranslationService(
                 new TranslationManager(
