@@ -1,5 +1,7 @@
 package translation.translation;
 
+import java.util.Map;
+
 public class TranslationFacadeSingleton {
     public static TranslationFacadeSingleton instance;
     private final TranslationService translationService;
@@ -24,6 +26,20 @@ public class TranslationFacadeSingleton {
         return TranslationFacadeSingleton.instance.translationService.translate(
                 locale.getISO3Language(),
                 key
+        );
+    }
+
+    public static String __(String key, Map<String, String> placeholders)
+    {
+        var locale = TranslationFacadeSingleton.instance.localeProvider.getLocale();
+        if (locale == null) {
+            return key;
+        }
+
+        return TranslationFacadeSingleton.instance.translationService.translate(
+                locale.getISO3Language(),
+                key,
+                placeholders
         );
     }
 }

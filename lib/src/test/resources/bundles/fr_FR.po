@@ -24,3 +24,6 @@ msgstr "Au revoir"
 
 msgid "Untranslated string"
 msgstr ""
+
+msgid "You have %score% points!"
+msgstr "Vous avez %score% points!"

@@ -1,6 +1,7 @@
 package translation.translation;
 
 import org.junit.jupiter.api.Test;
+import translation.translation.business.PlaceholderManager;
 import translation.translation.business.bundle_providers.FrGettextResourceBundleProvider;
 import translation.translation.business.TranslationManager;
 
@@ -44,7 +45,8 @@ public class TranslationServiceTest {
                     List.of(
                             new FrGettextResourceBundleProvider()
                     )
-                )
+                ),
+                new PlaceholderManager()
         );
     }
 }

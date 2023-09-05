@@ -2,6 +2,7 @@ package translation.translation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import translation.translation.business.PlaceholderManager;
 import translation.translation.business.TranslationManager;
 
 import java.io.IOException;
@@ -25,7 +26,8 @@ public class TranslationBeanConfiguration {
             List<GettextResourceBundleProviderInterface> gettextResourceBundleProviders
     ) throws IOException {
         return new TranslationService(
-                new TranslationManager(gettextResourceBundleProviders)
+                new TranslationManager(gettextResourceBundleProviders),
+                new PlaceholderManager()
         );
     }
 }
