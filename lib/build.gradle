@@ -1,11 +1,12 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'cl.franciscosolis.sonatype-central-upload' version '1.0.0'
 }
 
-version = '1.1.0'
+version = '1.1.1'
 
-group = 'com.github.lehadnk'
+group = 'io.github.lehadnk'
 
 repositories {
     mavenCentral()
@@ -26,6 +27,7 @@ java {
         languageVersion = JavaLanguageVersion.of(20)
     }
     withSourcesJar()
+    withJavadocJar()
 }
 
 jar {
@@ -36,20 +38,51 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+sonatypeCentralUpload {
+    username = sonatypeTokenUsername
+    password = sonatypeTokenPassword
+
+    archives = files(
+            file("build/libs/spring-translations-${version}.jar"),
+            file("build/libs/spring-translations-${version}-sources.jar"),
+            file("build/libs/spring-translations-${version}-javadoc.jar"),
+    )
+
+    pom = file("build/publications/mavenJava/pom-default.xml")                   // This is the pom file to upload. This is required by central
+
+    publicKey = new File(pgpPublicKeyPath).text
+    signingKeyPassphrase = pgpPassphrase
+    signingKey = new File(pgpPrivateKeyPath).text
+}
+
+tasks.sonatypeCentralUpload.dependsOn('jar', 'sourcesJar', 'javadocJar', 'generatePomFileForMavenJavaPublication')
+
 publishing {
     publications {
-        mavenJava(MavenPublication){
+        mavenJava(MavenPublication) {
             artifactId = 'spring-translations'
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/lehadnk/spring-translation"
-            credentials {
-                username = System.getenv("GITHUB_USERNAME")
-                password = System.getenv("GITHUB_TOKEN")
+            pom {
+                name = 'spring-translations'
+                description = 'Library for managing translations in Spring'
+                url = 'https://github.com/lehadnk/spring-translations'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'lehadnk'
+                        name = 'Alexey Zauzin'
+                        email = 'lehadnk@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:lehadnk/spring-translations.git'
+                    developerConnection = 'scm:git:git@github.com:lehadnk/spring-translations.git'
+                    url = 'https://github.com/lehadnk/spring-translations'
+                }
             }
         }
     }
