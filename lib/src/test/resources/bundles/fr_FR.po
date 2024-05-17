@@ -27,3 +27,6 @@ msgstr ""
 
 msgid "You have %score% points!"
 msgstr "Vous avez %score% points!"
+
+msgid "Your instance %slug% is in status %status%."
+msgstr "Your status %status% is in instance %slug%."

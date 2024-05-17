@@ -39,6 +39,17 @@ public class TranslationServiceTest {
         assertEquals("Untranslated string", translationService.translate(Locale.FRANCE.getISO3Language(), "Untranslated string"));
     }
 
+    @Test
+    public void testTranslationWithArgumentUnpack() throws IOException {
+        var translationService = this.createTranslationService();
+
+        var translation = translationService.translate(Locale.ENGLISH.getISO3Language(), "Your instance %slug% is in status %status%.", "test", "active");
+        assertEquals("Your instance test is in status active.", translation);
+
+        translation = translationService.translate(Locale.FRENCH.getISO3Language(), "Your instance %slug% is in status %status%.", "test", "active");
+        assertEquals("Your status active is in instance test.", translation);
+    }
+
     private TranslationService createTranslationService() throws IOException {
         return new TranslationService(
                 new TranslationManager(

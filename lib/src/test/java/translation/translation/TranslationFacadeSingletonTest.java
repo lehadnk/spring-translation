@@ -36,6 +36,13 @@ public class TranslationFacadeSingletonTest {
         assertEquals("This is non-existing string", __("This is %type% string", Map.of("type", "non-existing")));
     }
 
+    @Test
+    public void testArgumentUnpacking() throws IOException {
+        this.createTranslationFacadeSingleton();
+
+        assertEquals("This is non-existing string", __("This is %type% string", "non-existing"));
+    }
+
     private void createTranslationFacadeSingleton() throws IOException {
         new TranslationFacadeSingleton(
                 new TranslationService(

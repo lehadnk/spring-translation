@@ -42,4 +42,18 @@ public class TranslationFacadeSingleton {
                 placeholders
         );
     }
+
+    public static String __(String key, String... args)
+    {
+        var locale = TranslationFacadeSingleton.instance.localeProvider.getLocale();
+        if (locale == null) {
+            return key;
+        }
+
+        return TranslationFacadeSingleton.instance.translationService.translate(
+                locale.getISO3Language(),
+                key,
+                args
+        );
+    }
 }
